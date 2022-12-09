@@ -37,6 +37,7 @@ namespace DQTreasure
 			for (int index = 0; index < buffer.Length;)
 			{
 				int size = BitConverter.ToInt32(buffer, index + 0x10);
+				int uncomp_size = BitConverter.ToInt32(buffer, index + 0x18);
 				Byte[] comp = new Byte[size];
 				Array.Copy(buffer, index + 0x30, comp, 0, comp.Length);
 				try
@@ -45,6 +46,7 @@ namespace DQTreasure
 					Array.Resize(ref decomp, decomp.Length + tmp.Length);
 					Array.Copy(tmp, 0, decomp, decomp.Length - tmp.Length, tmp.Length);
 					index += size + 0x30;
+					if (uncomp_size != 0x20000) break;
 				}
 				catch
 				{
@@ -155,11 +157,11 @@ namespace DQTreasure
 				int length = output.Length;
 				Array.Resize(ref output, length + tmp.Length + 0x30);
 				Array.Copy(BitConverter.GetBytes(0x9E2A83C1), 0, output, length, 4);
-				output[length + 0x0A] = 2;
+				Array.Copy(BitConverter.GetBytes(0x20000), 0, output, length + 8, 4);
 				Array.Copy(BitConverter.GetBytes(tmp.Length), 0, output, length + 0x10, 4);
-				output[length + 0x1A] = 2;
+				Array.Copy(BitConverter.GetBytes(size), 0, output, length + 0x18, 4);
 				Array.Copy(BitConverter.GetBytes(tmp.Length), 0, output, length + 0x20, 4);
-				output[length + 0x2A] = 2;
+				Array.Copy(BitConverter.GetBytes(size), 0, output, length + 0x28, 4);
 				Array.Copy(tmp, 0, output, length + 0x30, tmp.Length);
 			}
 
