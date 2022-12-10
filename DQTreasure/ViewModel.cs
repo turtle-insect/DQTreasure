@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace DQTreasure
 {
@@ -14,6 +17,7 @@ namespace DQTreasure
 		public CommandAction ExportCommand { get; private set; }
 
 		public Player Player { get; private set; }
+		public ObservableCollection<Item> Items { get; private set; } = new ObservableCollection<Item>();
 
 		public ViewModel()
 		{
@@ -22,9 +26,14 @@ namespace DQTreasure
 			ImportCommand = new CommandAction(Import);
 			ExportCommand = new CommandAction(Export);
 
-			if (SaveData.Instance().Json == null) return;
+			var json = SaveData.Instance().Json;
+			if (json == null) return;
 
 			Player = new Player();
+			foreach (var obj in json["SaveData"]["BelongingsItem"]["ItemList"])
+			{
+				Items.Add(new Item((JObject)obj));
+			}
 		}
 
 		private void FileSave(object? parameter)

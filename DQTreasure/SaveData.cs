@@ -37,7 +37,6 @@ namespace DQTreasure
 			for (int index = 0; index < buffer.Length;)
 			{
 				int size = BitConverter.ToInt32(buffer, index + 0x10);
-				int uncomp_size = BitConverter.ToInt32(buffer, index + 0x18);
 				Byte[] comp = new Byte[size];
 				Array.Copy(buffer, index + 0x30, comp, 0, comp.Length);
 				try
@@ -45,15 +44,14 @@ namespace DQTreasure
 					Byte[] tmp = Ionic.Zlib.ZlibStream.UncompressBuffer(comp);
 					Array.Resize(ref decomp, decomp.Length + tmp.Length);
 					Array.Copy(tmp, 0, decomp, decomp.Length - tmp.Length, tmp.Length);
+					if (BitConverter.ToInt32(buffer, index + 0x18) != 0x20000) break;
 					index += size + 0x30;
-					if (uncomp_size != 0x20000) break;
 				}
 				catch
 				{
 					return false;
 				}
 			}
-
 
 			// UTF-16のJsonで構成されている
 			// {"SaveData"ではじまり

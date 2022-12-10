@@ -66,6 +66,22 @@
 					<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Player.BP, UpdateSourceTrigger=PropertyChanged}"/>
 				</Grid>
 			</TabItem>
+			<TabItem Header="Item">
+				<ListBox ItemsSource="{Binding Items}">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Label Content="IsNew :"/>
+								<CheckBox IsChecked="{Binding IsNew}" VerticalAlignment="Center"/>
+								<Label Content="Count :"/>
+								<TextBox Text="{Binding Count, UpdateSourceTrigger=PropertyChanged}" Width="80"/>
+								<Label Content="Name :"/>
+								<TextBox Text="{Binding ID, UpdateSourceTrigger=PropertyChanged}" Width="80"/>
+							</StackPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</TabItem>
 		</TabControl>
 	</DockPanel>
 </Window>
