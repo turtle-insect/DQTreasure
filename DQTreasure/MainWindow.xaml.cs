@@ -41,6 +41,7 @@ namespace DQTreasure
 		private void FileOpen_Click(object sender, RoutedEventArgs e)
 		{
 			var dlg = new Microsoft.Win32.OpenFileDialog();
+			dlg.Filter = "SaveData|DarwinSaveData*";
 			if (dlg.ShowDialog() == false) return;
 
 			FileOpen(dlg.FileName);

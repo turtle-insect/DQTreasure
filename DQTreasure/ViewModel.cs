@@ -18,6 +18,7 @@ namespace DQTreasure
 
 		public Player Player { get; private set; }
 		public ObservableCollection<Item> Items { get; private set; } = new ObservableCollection<Item>();
+		public ObservableCollection<Treasure> Treasures { get; private set; } = new ObservableCollection<Treasure>();
 
 		public ViewModel()
 		{
@@ -33,6 +34,11 @@ namespace DQTreasure
 			foreach (var obj in json["SaveData"]["BelongingsItem"]["ItemList"])
 			{
 				Items.Add(new Item((JObject)obj));
+			}
+
+			foreach (var obj in json["SaveData"]["History"]["TreasureQuality"])
+			{
+				Treasures.Add(new Treasure((JObject)obj));
 			}
 		}
 
@@ -60,6 +66,8 @@ namespace DQTreasure
 		private void Export(object? parameter)
 		{
 			var dlg = new Microsoft.Win32.SaveFileDialog();
+			dlg.DefaultExt= "json";
+			dlg.Filter= "json|*json";
 			if (dlg.ShowDialog() == false) return;
 
 			SaveData.Instance().Export(dlg.FileName);

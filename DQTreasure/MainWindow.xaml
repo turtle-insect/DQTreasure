@@ -82,6 +82,33 @@
 					</ListBox.ItemTemplate>
 				</ListBox>
 			</TabItem>
+			<TabItem Header="Treasure">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition/>
+						<ColumnDefinition Width="3*"/>
+					</Grid.ColumnDefinitions>
+					<ListBox x:Name="ListBoxTreasure" ItemsSource="{Binding Treasures}" DisplayMemberPath="ID"/>
+					<DockPanel Grid.Column="1">
+						<StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+							<Label Content="ID"/>
+							<TextBox Text="{Binding ElementName=ListBoxTreasure, Path=SelectedItem.ID, UpdateSourceTrigger=PropertyChanged}" Width="80"/>
+						</StackPanel>
+						<ListBox ItemsSource="{Binding ElementName=ListBoxTreasure, Path=SelectedItem.Qualities}">
+							<ListBox.ItemTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal">
+										<Label Content="ID"/>
+										<TextBox Text="{Binding ID, UpdateSourceTrigger=PropertyChanged}" Width="80"/>
+										<Label Content="Num"/>
+										<TextBox Text="{Binding Num, UpdateSourceTrigger=PropertyChanged}" Width="80"/>
+									</StackPanel>
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+						</ListBox>
+					</DockPanel>
+				</Grid>
+			</TabItem>
 		</TabControl>
 	</DockPanel>
 </Window>
