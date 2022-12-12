@@ -1,7 +1,5 @@
 ![DL Count](https://img.shields.io/github/downloads/turtle-insect/DQTreasure/total.svg)
 
-多分作る...
-
 # 概要
 Switch ドラゴンクエスト トレジャーズ　蒼き瞳と大空の羅針盤のセーブデータ編集Tool
 
@@ -22,3 +20,12 @@ https://ec.nintendo.com/JP/ja/titles/70010000038933
 * Windows 10(64bit)
 * [Visual Studio 2022](https://visualstudio.microsoft.com/)
 
+# 編集時の手順
+* saveDataを吸い出す
+* 『DarwinSaveData0』or 『DarwinSaveData1』をToolで読み込む
+* 任意の編集を行う
+* saveDataを書き戻す
+
+# 備考
+* セーブデータはJsonで構成されています
+* 任意のセーブデータを読み込み、Exportし、テキストエディタで編集しimport可能

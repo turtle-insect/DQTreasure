@@ -109,6 +109,38 @@
 					</DockPanel>
 				</Grid>
 			</TabItem>
+			<TabItem Header="Monster">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+					</Grid.ColumnDefinitions>
+					<ListBox x:Name="ListBoxMonster" ItemsSource="{Binding Monsters}" DisplayMemberPath="ID"/>
+					<Grid Grid.Column="1">
+						<Grid.RowDefinitions>
+							<RowDefinition/>
+							<RowDefinition/>
+							<RowDefinition/>
+							<RowDefinition/>
+							<RowDefinition/>
+							<RowDefinition Height="7*"/>
+						</Grid.RowDefinitions>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+						</Grid.ColumnDefinitions>
+						<Label Content="ID"/>
+						<TextBox Grid.Column="1" Text="{Binding ElementName=ListBoxMonster, Path=SelectedItem.ID, UpdateSourceTrigger=PropertyChanged}"/>
+						<Label Grid.Row="1" Content="Level"/>
+						<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ElementName=ListBoxMonster, Path=SelectedItem.Level, UpdateSourceTrigger=PropertyChanged}"/>
+						<Label Grid.Row="2" Content="HP"/>
+						<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ElementName=ListBoxMonster, Path=SelectedItem.HP, UpdateSourceTrigger=PropertyChanged}"/>
+						<Label Grid.Row="3" Content="MP"/>
+						<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ElementName=ListBoxMonster, Path=SelectedItem.MP, UpdateSourceTrigger=PropertyChanged}"/>
+					</Grid>
+				</Grid>
+			</TabItem>
 		</TabControl>
 	</DockPanel>
 </Window>
