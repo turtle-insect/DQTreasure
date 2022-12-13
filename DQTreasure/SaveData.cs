@@ -15,6 +15,7 @@ namespace DQTreasure
 		private Byte[] mHeader = null;
 		private Byte[] mFooter = null;
 		public Newtonsoft.Json.Linq.JObject Json { get; private set; } = null;
+		private System.Text.Encoding mEncode = System.Text.Encoding.Unicode;
 		public uint Adventure { private get; set; } = 0;
 		
 
@@ -62,18 +63,19 @@ namespace DQTreasure
 			{
 				if (header[0] == decomp[index])
 				{
-					bool isFind = true;
-					for (int i = 0; i < header.Length; i++)
+					String tmp = System.Text.Encoding.Unicode.GetString(decomp, index, header.Length * 2);
+					if(tmp == header)
 					{
-						if (header[i] != decomp[index + i * 2])
-						{
-							isFind = false;
-							break;
-						}
+						headerIndex = index;
+						mHeader = new Byte[index];
+						Array.Copy(decomp, 0, mHeader, 0, mHeader.Length);
+						break;
 					}
 
-					if (isFind)
+					tmp = System.Text.Encoding.ASCII.GetString(decomp, index, header.Length);
+					if (tmp == header)
 					{
+						mEncode = System.Text.Encoding.ASCII;
 						headerIndex = index;
 						mHeader = new Byte[index];
 						Array.Copy(decomp, 0, mHeader, 0, mHeader.Length);
@@ -96,7 +98,7 @@ namespace DQTreasure
 					bool isFind = true;
 					for (int i = 0; i < footer.Length; i++)
 					{
-						if (footer[i] != decomp[index + i * 2])
+						if (footer[i] != decomp[index + i * (mEncode.IsSingleByte ? 1 : 2)])
 						{
 							isFind = false;
 							break;
@@ -105,7 +107,7 @@ namespace DQTreasure
 
 					if (isFind)
 					{
-						footerIndex = index + footer.Length * 2;
+						footerIndex = index + footer.Length * (mEncode.IsSingleByte ? 1 : 2);
 						mFooter = new Byte[decomp.Length - footerIndex];
 						Array.Copy(decomp, footerIndex, mFooter, 0, mFooter.Length);
 						break;
@@ -121,7 +123,7 @@ namespace DQTreasure
 			Byte[] body = new Byte[footerIndex - headerIndex];
 			Array.Copy(decomp, headerIndex, body, 0, body.Length);
 
-			String text = System.Text.Encoding.Unicode.GetString(body);
+			String text = mEncode.GetString(body);
 			Json = Newtonsoft.Json.Linq.JObject.Parse(text);
 
 			mFileName = filename;
@@ -134,14 +136,22 @@ namespace DQTreasure
 			if (mFileName == null || Json == null) return false;
 
 			String text = Json.ToString(Newtonsoft.Json.Formatting.None);
-			Byte[] body = System.Text.Encoding.Unicode.GetBytes(text);
+			Byte[] body = mEncode.GetBytes(text);
 			Byte[] buffer = new Byte[mHeader.Length + body.Length + mFooter.Length];
 			Array.Copy(mHeader, buffer, mHeader.Length);
 			Array.Copy(body, 0, buffer, mHeader.Length, body.Length);
 			Array.Copy(mFooter, 0, buffer, mHeader.Length + body.Length, mFooter.Length);
 			Array.Copy(BitConverter.GetBytes(buffer.Length - 4), 0, buffer, 0, 4);
-			Array.Copy(BitConverter.GetBytes(body.Length + 6), 0, buffer, mHeader.Length - 13, 4);
-			Array.Copy(BitConverter.GetBytes(UInt32.MaxValue - (UInt32)body.Length / 2), 0, buffer, mHeader.Length - 4, 4);
+			Array.Copy(BitConverter.GetBytes(body.Length + 4 + (mEncode.IsSingleByte ? 1 : 2)), 0, buffer, mHeader.Length - 13, 4);
+			if(mEncode.IsSingleByte)
+			{
+				Array.Copy(BitConverter.GetBytes(body.Length + 1), 0, buffer, mHeader.Length - 4, 4);
+			}
+			else
+			{
+				Array.Copy(BitConverter.GetBytes(UInt32.MaxValue - (UInt32)body.Length / 2), 0, buffer, mHeader.Length - 4, 4);
+			}
+
 
 			Byte[] output = new Byte[0];
 			for (int index = 0; index < buffer.Length; index += 0x20000)
