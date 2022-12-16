@@ -29,3 +29,6 @@ https://ec.nintendo.com/JP/ja/titles/70010000038933
 # 備考
 * セーブデータはJsonで構成されています
 * 任意のセーブデータを読み込み、Exportし、テキストエディタで編集しimport可能
+
+# Resource
+https://docs.google.com/spreadsheets/d/1CEDWO_GzbVraNtn7iRWkDN8GBE3LjsYX_MjB91sByug/edit?usp=sharing

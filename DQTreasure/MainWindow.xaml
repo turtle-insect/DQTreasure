@@ -14,6 +14,9 @@
 	<Window.Resources>
 		<BitmapImage x:Key="Open" UriSource="./resource/Open.png"/>
 		<BitmapImage x:Key="Save" UriSource="./resource/Save.png"/>
+		<local:ItemIDConverter x:Key="ItemIDConverter"/>
+		<local:MonsterIDConverter x:Key="MonsterIDConverter"/>
+		<local:TreasureIDConverter x:Key="TreasureIDConverter"/>
 	</Window.Resources>
 	<DockPanel>
 		<Menu DockPanel.Dock="Top">
@@ -77,6 +80,11 @@
 								<TextBox Text="{Binding Count, UpdateSourceTrigger=PropertyChanged}" Width="80"/>
 								<Label Content="Name :"/>
 								<TextBox Text="{Binding ID, UpdateSourceTrigger=PropertyChanged}" Width="80"/>
+								<Button Content=" ... "
+										Command="{Binding Path=DataContext.ChoiceItemCommand,
+										RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}}"
+										CommandParameter="{Binding}"/>
+								<Label Content="{Binding ID, Converter={StaticResource ItemIDConverter}}"/>
 							</StackPanel>
 						</DataTemplate>
 					</ListBox.ItemTemplate>
@@ -91,8 +99,10 @@
 					<ListBox x:Name="ListBoxTreasure" ItemsSource="{Binding Treasures}" DisplayMemberPath="ID"/>
 					<DockPanel Grid.Column="1">
 						<StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-							<Label Content="ID"/>
 							<TextBox Text="{Binding ElementName=ListBoxTreasure, Path=SelectedItem.ID, UpdateSourceTrigger=PropertyChanged}" Width="80"/>
+							<Button Content=" ... " Command="{Binding ChoiceTreasureCommand}"
+												CommandParameter="{Binding ElementName=ListBoxTreasure, Path=SelectedItem}"/>
+							<Label Content="{Binding ElementName=ListBoxTreasure, Path=SelectedItem.ID, Converter={StaticResource TreasureIDConverter}}"/>
 						</StackPanel>
 						<ListBox ItemsSource="{Binding ElementName=ListBoxTreasure, Path=SelectedItem.Qualities}">
 							<ListBox.ItemTemplate>
@@ -130,14 +140,19 @@
 							<ColumnDefinition/>
 							<ColumnDefinition/>
 						</Grid.ColumnDefinitions>
-						<Label Content="ID"/>
-						<TextBox Grid.Column="1" Text="{Binding ElementName=ListBoxMonster, Path=SelectedItem.ID, UpdateSourceTrigger=PropertyChanged}"/>
-						<Label Grid.Row="1" Content="Level"/>
-						<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ElementName=ListBoxMonster, Path=SelectedItem.Level, UpdateSourceTrigger=PropertyChanged}"/>
-						<Label Grid.Row="2" Content="HP"/>
-						<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ElementName=ListBoxMonster, Path=SelectedItem.HP, UpdateSourceTrigger=PropertyChanged}"/>
-						<Label Grid.Row="3" Content="MP"/>
-						<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ElementName=ListBoxMonster, Path=SelectedItem.MP, UpdateSourceTrigger=PropertyChanged}"/>
+						<Label Content="ID" Grid.RowSpan="2"/>
+						<StackPanel Grid.Column="1" Orientation="Horizontal">
+							<Button Content=" ... " Command="{Binding ChoiceMonsterCommand}"
+									CommandParameter="{Binding ElementName=ListBoxMonster, Path=SelectedItem}"/>
+							<Label Grid.Column="1" Content="{Binding ElementName=ListBoxMonster, Path=SelectedItem.ID, Converter={StaticResource MonsterIDConverter}}"/>
+						</StackPanel>
+						<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ElementName=ListBoxMonster, Path=SelectedItem.ID, UpdateSourceTrigger=PropertyChanged}"/>
+						<Label Grid.Row="2" Content="Level"/>
+						<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ElementName=ListBoxMonster, Path=SelectedItem.Level, UpdateSourceTrigger=PropertyChanged}"/>
+						<Label Grid.Row="3" Content="HP"/>
+						<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ElementName=ListBoxMonster, Path=SelectedItem.HP, UpdateSourceTrigger=PropertyChanged}"/>
+						<Label Grid.Row="4" Content="MP"/>
+						<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding ElementName=ListBoxMonster, Path=SelectedItem.MP, UpdateSourceTrigger=PropertyChanged}"/>
 					</Grid>
 				</Grid>
 			</TabItem>

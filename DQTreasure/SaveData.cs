@@ -11,7 +11,7 @@ namespace DQTreasure
 	internal class SaveData
 	{
 		private static SaveData mThis = null;
-		private String mFileName = null;
+		private String mFileName = String.Empty;
 		private Byte[] mHeader = null;
 		private Byte[] mFooter = null;
 		public Newtonsoft.Json.Linq.JObject Json { get; private set; } = null;
@@ -133,7 +133,7 @@ namespace DQTreasure
 
 		public bool Save()
 		{
-			if (mFileName == null || Json == null) return false;
+			if (mFileName == String.Empty || Json == null) return false;
 
 			String text = Json.ToString(Newtonsoft.Json.Formatting.None);
 			Byte[] body = mEncode.GetBytes(text);
@@ -180,14 +180,14 @@ namespace DQTreasure
 
 		public bool SaveAs(String filename)
 		{
-			if (mFileName == null || Json == null) return false;
+			if (mFileName == String.Empty || Json == null) return false;
 			mFileName = filename;
 			return Save();
 		}
 
 		public void Import(String filename)
 		{
-			if (mFileName == null) return;
+			if (mFileName == String.Empty) return;
 
 			String text = System.IO.File.ReadAllText(filename);
 			Json = Newtonsoft.Json.Linq.JObject.Parse(text);

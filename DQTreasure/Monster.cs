@@ -1,24 +1,31 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DQTreasure
 {
-	internal class Monster
+	internal class Monster : INotifyPropertyChanged
 	{
+		public event PropertyChangedEventHandler? PropertyChanged;
+
 		private readonly JObject mObject;
 		public Monster(JObject obj)
 		{
 			mObject = obj;
 		}
 
-		public int ID
+		public uint ID
 		{
-			get { return (int)mObject["mKindId"]; }
-			set { mObject["mKindId"] = value; }
+			get { return (uint)mObject["mKindId"]; }
+			set
+			{
+				mObject["mKindId"] = value;
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ID)));
+			}
 		}
 
 		public int Level
