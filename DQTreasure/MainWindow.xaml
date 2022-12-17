@@ -39,6 +39,21 @@
 		</ToolBar>
 		<TabControl>
 			<TabItem Header="Basic">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition/>
+						<RowDefinition Height="11*"/>
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+						<ColumnDefinition Width="5"/>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+					</Grid.ColumnDefinitions>
+					<Label Content="Gold"/>
+					<TextBox Grid.Column="1" Text="{Binding General.Gold, UpdateSourceTrigger=PropertyChanged}"/>
+				</Grid>
 			</TabItem>
 			<TabItem Header="Player">
 				<Grid>

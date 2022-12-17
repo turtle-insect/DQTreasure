@@ -22,6 +22,7 @@ namespace DQTreasure
 		public CommandAction ChoiceMonsterCommand { get; private set; }
 		public CommandAction ChoiceTreasureCommand { get; private set; }
 
+		public General General { get;private set; }
 		public Player Player { get; private set; }
 		public ObservableCollection<Item> Items { get; private set; } = new ObservableCollection<Item>();
 		public ObservableCollection<Treasure> Treasures { get; private set; } = new ObservableCollection<Treasure>();
@@ -41,6 +42,7 @@ namespace DQTreasure
 			var json = SaveData.Instance().Json;
 			if (json == null) return;
 
+			General = new General();
 			Player = new Player();
 			foreach (var obj in json["SaveData"]["BelongingsItem"]["ItemList"])
 			{
