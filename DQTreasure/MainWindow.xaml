@@ -171,6 +171,28 @@
 					</Grid>
 				</Grid>
 			</TabItem>
+			<TabItem Header="Coin">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+					</Grid.ColumnDefinitions>
+					<ListBox x:Name="ListBoxCoin" ItemsSource="{Binding Coins}" DisplayMemberPath="ID"/>
+					<Grid Grid.Column="1">
+						<Grid.RowDefinitions>
+							<RowDefinition/>
+							<RowDefinition Height="11*"/>
+						</Grid.RowDefinitions>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+						</Grid.ColumnDefinitions>
+						<Label Content="ID"/>
+						<TextBox Grid.Column="1" Text="{Binding ElementName=ListBoxCoin, Path=SelectedItem.ID, UpdateSourceTrigger=PropertyChanged}"/>
+					</Grid>
+				</Grid>
+			</TabItem>
 		</TabControl>
 	</DockPanel>
 </Window>

@@ -27,6 +27,7 @@ namespace DQTreasure
 		public ObservableCollection<Item> Items { get; private set; } = new ObservableCollection<Item>();
 		public ObservableCollection<Treasure> Treasures { get; private set; } = new ObservableCollection<Treasure>();
 		public ObservableCollection<Monster> Monsters { get; private set; } = new ObservableCollection<Monster>();
+		public ObservableCollection<Coin> Coins { get; private set; } = new ObservableCollection<Coin>();
 
 		public ViewModel()
 		{
@@ -57,6 +58,12 @@ namespace DQTreasure
 			foreach (var obj in json["SaveData"]["StockMonster"]["StockMonsters"])
 			{
 				Monsters.Add(new Monster((JObject)obj));
+			}
+
+			foreach (var obj in json["SaveData"]["BelongingsCoin"]["Coins"])
+			{
+				var param = obj["Param"];
+				Coins.Add(new Coin((JObject)param));
 			}
 		}
 
