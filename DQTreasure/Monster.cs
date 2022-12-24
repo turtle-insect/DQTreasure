@@ -51,5 +51,17 @@ namespace DQTreasure
 			get { return (int)mObject["mMp"]; }
 			set { mObject["mMp"] = value; }
 		}
+
+		public int VoiceJP
+		{
+			get { return (int)mObject["mVoiceDataType"]; }
+			set { mObject["mVoiceDataType"] = value; }
+		}
+
+		public int VoiceEN
+		{
+			get { return (int)mObject["mVoiceDataTypeEN"]; }
+			set { mObject["mVoiceDataTypeEN"] = value; }
+		}
 	}
 }

@@ -149,7 +149,9 @@
 							<RowDefinition/>
 							<RowDefinition/>
 							<RowDefinition/>
-							<RowDefinition Height="7*"/>
+							<RowDefinition/>
+							<RowDefinition/>
+							<RowDefinition Height="5*"/>
 						</Grid.RowDefinitions>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition/>
@@ -168,6 +170,10 @@
 						<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ElementName=ListBoxMonster, Path=SelectedItem.HP, UpdateSourceTrigger=PropertyChanged}"/>
 						<Label Grid.Row="4" Content="MP"/>
 						<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding ElementName=ListBoxMonster, Path=SelectedItem.MP, UpdateSourceTrigger=PropertyChanged}"/>
+						<Label Grid.Row="5" Content="VoiceJP"/>
+						<TextBox Grid.Row="5" Grid.Column="1" Text="{Binding ElementName=ListBoxMonster, Path=SelectedItem.VoiceJP, UpdateSourceTrigger=PropertyChanged}"/>
+						<Label Grid.Row="6" Content="VoiceEN"/>
+						<TextBox Grid.Row="6" Grid.Column="1" Text="{Binding ElementName=ListBoxMonster, Path=SelectedItem.VoiceEN, UpdateSourceTrigger=PropertyChanged}"/>
 					</Grid>
 				</Grid>
 			</TabItem>
