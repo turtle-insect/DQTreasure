@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DQTreasure
 {
-	internal class NameValueInfo
+	internal class NameValueInfo : IComparable
 	{
 		public uint Value { get; private set; }
 		public String Name { get; private set; } = String.Empty;
